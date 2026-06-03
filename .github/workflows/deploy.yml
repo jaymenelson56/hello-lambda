@@ -41,6 +41,11 @@ jobs:
         with:
           terraform_version: 1.9.8
 
+      - name: Create Terraform state bucket if missing
+        run: |
+          aws s3api head-bucket --bucket jayme-hello-lambda-tfstate 2>/dev/null || \
+          aws s3 mb s3://jayme-hello-lambda-tfstate --region us-east-2
+
       - name: Terraform Init
         run: terraform init
         working-directory: infra
